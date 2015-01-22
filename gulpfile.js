@@ -61,9 +61,9 @@ gulp.task('coveralls', ['test'], function() {
 });
 
 gulp.task('compile', ['clean'], function() {
-  return browserify('./lib/bespoke-markdown.js')
+  return browserify('./lib/bespoke-meta-markdown.js')
     .bundle({ standalone: 'bespoke.plugins.markdown' })
-    .pipe(source('bespoke-markdown.js'))
+    .pipe(source('bespoke-meta-markdown.js'))
     .pipe(buffer())
     .pipe(header(template([
       '/*!',
@@ -75,7 +75,7 @@ gulp.task('compile', ['clean'], function() {
       ' */\n\n'
     ].join('\n'), pkg)))
     .pipe(gulp.dest('dist'))
-    .pipe(rename('bespoke-markdown.min.js'))
+    .pipe(rename('bespoke-meta-markdown.min.js'))
     .pipe(uglify())
     .pipe(header(template([
       '/*! <%= name %> v<%= version %> ',
@@ -104,7 +104,7 @@ var deployDependencies = [
   'node_modules/bespoke-touch/dist/bespoke-touch.js',
   'node_modules/bespoke-classes/dist/bespoke-classes.js',
   'node_modules/bespoke-progress/dist/bespoke-progress.js',
-  'dist/bespoke-markdown.js'
+  'dist/bespoke-meta-markdown.js'
 ];
 
 gulp.task('deploy-dependencies:dynamic', ['deploy-dependencies:static'], function() {

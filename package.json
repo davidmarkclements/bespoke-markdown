@@ -1,18 +1,18 @@
 {
-  "name": "bespoke-markdown",
-  "version": "0.2.1",
-  "description": "Allows you to use Markdown for the content of your slides",
-  "homepage": "https://github.com/aaronpowell/bespoke-markdown",
-  "bugs": "https://github.com/aaronpowell/bespoke-markdown/issues",
+  "name": "bespoke-meta.markdown",
+  "version": "1.0.0",
+  "description": "Turns markdown into slides, use YAML meta data to determine additional styling and classes, originally forked from bespoke-markdown",
+  "homepage": "https://github.com/davidmarkclements/bespoke-meta-markdown",
+  "bugs": "https://github.com/davidmarkclements/bespoke-meta-markdown/issues",
   "author": {
     "name": "Aaron Powell",
-    "url": "https://github.com/aaronpowell",
+    "url": "https://github.com/davidmarkclements",
     "email": "me@aaron-powell.com"
   },
-  "main": "./lib/bespoke-markdown.js",
+  "main": "./lib/bespoke-meta-markdown.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/aaronpowell/bespoke-markdown.git"
+    "url": "git://github.com/davidmarkclements/bespoke-meta-markdown.git"
   },
   "scripts": {
     "test": "gulp",
@@ -56,7 +56,9 @@
     "vinyl-source-stream": "^0.1.1"
   },
   "dependencies": {
-    "highlight.js": "^8.2.0"
+    "bespoke-markdown": "^0.2.1",
+    "highlight.js": "^8.2.0",
+    "js-yaml": "^3.2.5"
   },
   "engines": {
     "node": ">=0.10.0"

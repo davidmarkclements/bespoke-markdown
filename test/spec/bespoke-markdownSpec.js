@@ -1,7 +1,7 @@
 Function.prototype.bind = Function.prototype.bind || require('function-bind');
 
 var bespoke = require('bespoke'),
-    markdown = require('../../lib-instrumented/bespoke-markdown.js');
+    markdown = require('../../lib-instrumented/bespoke-meta-markdown.js');
     FIXTURES_PATH = 'base/test/fixtures/';
 
 describe("bespoke-markdown", function() {

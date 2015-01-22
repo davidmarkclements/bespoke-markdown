@@ -1,7 +1,7 @@
 {
-  "name": "bespoke-markdown",
+  "name": "bespoke-meta-markdown",
   "version": "0.0.0",
-  "main": "./dist/bespoke-markdown.js",
+  "main": "./dist/bespoke-meta-markdown.js",
   "ignore": [
     "**/.*"
   ],
