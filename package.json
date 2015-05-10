@@ -6,7 +6,7 @@
   "bugs": "https://github.com/davidmarkclements/bespoke-meta-markdown/issues",
   "author": {
     "name": "David Mark Clements",
-    "url": "https://github.com/davidmarkclements",
+    "url": "https://github.com/davidmarkclements"
   },
   "main": "./lib/bespoke-meta-markdown.js",
   "repository": {
