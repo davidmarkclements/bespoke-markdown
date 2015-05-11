@@ -76,6 +76,47 @@ bespoke.from('article', [
 $ npm install bespoke-meta-markdown
 ```
 
+## Graceful Reloads
+
+As of 1.3.x bespoke-meta-markdown supplies a `reload` method which
+allows slides loaded from markdown to be reloaded in place, instead
+of a full refresh.
+
+The `reload` method is supplied on the function object returned
+when the exported function is called.
+
+```javascript
+require('bespoke-meta-markdown') 
+  => function metaMarkdown(config) 
+    => function bespokePlugin(deck, ...)
+    #reload function(file, LR)
+```
+
+The idea is to tie it into live reload 
+
+```javascript
+var markdown = require('bespoke-meta-markdown');
+var md = markdown();
+bespoke.from('article', [md]);
+
+LiveReload.addPlugin(MarkdownPlugin)  
+
+function MarkdownPlugin(window, host) {
+  this.window = window;
+  this.host = host;
+}
+
+MarkdownPlugin.prototype.reload = function (path, opts) {
+  path = path.split('/');
+  var file = path[path.length-1];
+  if (file.split('.')[1] !== 'md') { return false; }
+  md.reload(file, this); //<-- using the bespoke-meta-markdown reload method
+  return true;
+}
+```
+
+
+
 
 ## Credits
 
