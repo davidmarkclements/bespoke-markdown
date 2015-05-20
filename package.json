@@ -1,6 +1,6 @@
 {
   "name": "bespoke-meta-markdown",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Turns markdown into slides, use YAML meta data to determine additional styling and classes",
   "homepage": "https://github.com/davidmarkclements/bespoke-meta-markdown",
   "bugs": "https://github.com/davidmarkclements/bespoke-meta-markdown/issues",

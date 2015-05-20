@@ -26,7 +26,7 @@ var defaults = {
 };  
 ```
 
-To take advantage of this default behaviour insert YAML data in a slide
+To take advantage of this default behavior insert YAML data in a slide
 
 ```markdown
 
@@ -67,6 +67,26 @@ bespoke.from('article', [
   markdown({master: null});
 ]);
 ```
+
+The `this` context of each configuration method is 
+the bespoke `deck` object, for cases where YAML configuration
+could affect all slides:
+
+```javascript
+var markdown = require('bespoke-meta-markdown');
+bespoke.from('article', [
+  markdown({
+    skip: function (slide, bool) {
+      if (!bool) {return;}
+      var deck = this;
+      deck.slides.splice(deck.slides.indexOf(slide), 1);
+      deck.parent.removeChild(slide);
+    }
+  })
+]);
+```
+
+
 
 ## Package managers
 
