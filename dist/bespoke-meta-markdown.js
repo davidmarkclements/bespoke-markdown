@@ -1,5 +1,5 @@
 /*!
- * bespoke-meta-markdown v1.3.0
+ * bespoke-meta-markdown v1.4.1
  *
  * Copyright 2015, David Mark Clements
  * This content is released under the MIT license
@@ -28,11 +28,11 @@ function grabMeta(slide) {
   return meta;
 }
 
-function processMeta(slide, meta, config) {
+function processMeta(slide, meta, config, deck) {
 
   Object.keys(meta).forEach(function (key) {
     if (key !== 'marked-options' && config[key] instanceof Function) { 
-      config[key](slide, meta[key]);
+      config[key].call(deck, slide, meta[key]);
     }
   });
 }
@@ -46,8 +46,7 @@ hljsRenderer.code = function(code, lang, escaped) {
   }
 
   return '<pre><code'
-    + (lang
-        ? ' class="hljs ' + this.options.langPrefix + lang + '"'
+    + (lang ? ' class="hljs ' + this.options.langPrefix + lang + '"'
         : ' class="hljs"')
     + '>'
     + code
@@ -93,11 +92,11 @@ var fetchFile = function(path, callbackSuccess, callbackError) {
   }
 };
 
-var markdown = function(slide, config) {
+var markdown = function(slide, config, deck) {
   var meta = grabMeta(slide);
   var comment = meta._comment;
   slide.innerHTML = marked(slide.innerHTML, meta['marked-options']);
-  processMeta(slide, meta, config);
+  processMeta(slide, meta, config, deck);
 
   if (comment) {
     slide.insertBefore(comment, slide.firstChild);
@@ -139,7 +138,7 @@ var slidify = function(deck, slide, config) {
         slidesContent.forEach(function(slideContent) {
           var slideContainer = createSlide(deck, slide);
           slideContainer.innerHTML = (slideContent || '').trim();
-          markdown(slideContainer, config);
+          markdown(slideContainer, config, deck);
         });
 
         // removes original slide
@@ -152,7 +151,7 @@ var slidify = function(deck, slide, config) {
 
     // data-markdown="" or data-markdown (so we markdown the content)
     case markdownAttribute !== null:
-      markdown(slide, config);
+      markdown(slide, config, deck);
       break;
 
     // plain html slide. Don't do anything
@@ -215,52 +214,63 @@ module.exports = function(config) {
         break;
       case 'transform-content-of-all-slides':
         deck.slides.forEach(function (slide) {
-          markdown(slide, config);
+          markdown(slide, config, deck);
         });
         break;
     }
-  };
+  }
 
   metamd.reload = function (file, LR) {
     var deck = metamd.deck;
     fetchFile(file, function(fileContents) {
+
       var slidesContent = fileContents.split(/\r?\n---\r?\n/);
-      var slideCount = slidesContent.length;
       var current = deck.slide();
-      current = current < 0 ? 0 : current;
-      var diff = deck.slides.length - slideCount;
+      var diff, count;
+      var clone = Object.create(deck);
+
+      clone.parent = clone.parent.cloneNode();
+      clone.slides = [];
 
       slidesContent.forEach(function(slideContent, ix) {
-        var slide = deck.slides[ix] || createSlide(deck);
+        var slide = clone.slides[ix] || createSlide(clone);
         slide.className = 'bespoke-slide';
         slide.innerHTML = (slideContent || '').trim();
-        markdown(slide, config);
+        markdown(slide, config, clone);
+      });
+
+      count = clone.slides.length;
+      diff = deck.slides.length - count;
+
+      clone.slides.forEach(function (slide, ix) {
+        deck.slides[ix].innerHTML = slide.innerHTML;
       });
 
       if (diff) { dispatchEvent(new Event('resize')); }
 
       //prune dupes 
       while (diff > 0) {
-        removeSlide(deck, deck.slides[slideCount + diff-- - 1]);
+        removeSlide(deck, deck.slides[count + diff-- - 1]);
       }
 
-        
 
-
-      deck.slide(current);
+      deck.slide(current < 0 ? 0 : current);
       
 
     }, function() {
          if (LR) {
-          LR.host.console.log('Error reloading ' + file)
+          LR.host.console.log('Error reloading ' + file);
         }
     });
 
-  }
+  };
 
   return metamd;
 };
 
+function load(slidesContent, deck, config) {
+
+}
 
 
 
