@@ -235,6 +235,7 @@ module.exports = function(config) {
       slidesContent.forEach(function(slideContent, ix) {
         var slide = clone.slides[ix] || createSlide(clone);
         slide.className = 'bespoke-slide';
+        slide.content = (slideContent || '').trim();
         slide.innerHTML = (slideContent || '').trim();
         markdown(slide, config, clone);
       });
@@ -242,9 +243,14 @@ module.exports = function(config) {
       count = clone.slides.length;
       diff = deck.slides.length - count;
 
-      clone.slides.forEach(function (slide, ix) {
-        deck.slides[ix].innerHTML = slide.innerHTML;
-      });
+      clone.slides
+        .map(function (slide) { return slide.content; })
+        .forEach(function (slideContent, ix) {
+          var slide = deck.slides[ix] || createSlide(deck);
+          slide.className = 'bespoke-slide';
+          slide.innerHTML = (slideContent || '').trim();
+          markdown(slide, config, deck);
+        });
 
       if (diff) { dispatchEvent(new Event('resize')); }
 
