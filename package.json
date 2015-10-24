@@ -1,6 +1,5 @@
-{
   "name": "bespoke-meta-markdown",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Turns markdown into slides, use YAML meta data to determine additional styling and classes",
   "homepage": "https://github.com/davidmarkclements/bespoke-meta-markdown",
   "bugs": "https://github.com/davidmarkclements/bespoke-meta-markdown/issues",
@@ -16,10 +15,6 @@
   "scripts": {
     "test": "gulp",
     "coveralls": "gulp coveralls"
-  },
-  "peerDependencies": {
-    "bespoke": ">=1.0.0-beta",
-    "marked": "0.3.2"
   },
   "devDependencies": {
     "bespoke": "^1.0.0",
